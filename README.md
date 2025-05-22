@@ -1,28 +1,21 @@
 # caldav-mcp
 
-A CalDAV Model Context Protocol (MCP) server to expose calendar operations as tools for AI assistants.
+<div align="center">
 
-## Features
+🗓️ A CalDAV Model Context Protocol (MCP) server to expose calendar operations as tools for AI assistants.
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-purple.svg)](https://modelcontextprotocol.io)
+
+</div>
+
+## ✨ Features
 
 - Connect to CalDAV servers
 - Create calendar events
 - List calendar events within a specific timeframe
 
 ## Setup
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Create a `.env` file in the project root with your CalDAV credentials:
-```
-CALDAV_BASE_URL=<CalDAV server URL>
-CALDAV_USERNAME=<CalDAV username>
-CALDAV_PASSWORD=<CalDAV password>
-```
-
-## Setup in Claude Desktop
 
 ```
 {
