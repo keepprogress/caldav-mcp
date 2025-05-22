@@ -25,6 +25,16 @@ async function main() {
   const calendar = calendars[0];
 
   server.tool(
+    "list-calendars",
+    {},
+    async () => {
+      return {
+        content: [{type: "text", text: calendars.map(c => `${c.displayName} (${c.url}`).join("\n")}]
+      };
+    }
+  );
+
+  server.tool(
     "create-event",
     {summary: z.string(), start: z.string().datetime(), end: z.string().datetime()},
     async ({summary, start, end}) => {
@@ -58,7 +68,10 @@ async function main() {
       });
 
       return {
-        content: [{type: "text", text: filteredEvents.map(e => `${e.summary}\nStart: ${e.start}\nEnd: ${e.end}`).join("\n")}]
+        content: [{
+          type: "text",
+          text: filteredEvents.map(e => `${e.summary}\nStart: ${e.start}\nEnd: ${e.end}`).join("\n")
+        }]
       };
     }
   );
