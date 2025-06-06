@@ -63,6 +63,27 @@ async function main() {
     }
   );
 
+  server.tool(
+    "delete-event",
+    {uid: z.string()},
+    async ({uid}) => {
+      await client.deleteEvent(calendar.url, uid);
+      return {
+        content: [{type: "text", text: "Event deleted"}]
+      };
+    }
+  );
+
+  server.tool("list-calendars",
+    {},
+    async () => {
+      const calendars = await client.getCalendars();
+      return {
+        content: [{type: "text", text: calendars.map(c => c.displayName).join("\n")}]
+      };
+    }
+  )
+
   // Start receiving messages on stdin and sending messages on stdout
   const transport = new StdioServerTransport();
   await server.connect(transport);
