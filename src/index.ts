@@ -22,13 +22,12 @@ async function main() {
   });
 
   const calendars = await client.getCalendars();
-  const calendar = calendars[0];
 
   server.tool(
     "create-event",
-    {summary: z.string(), start: z.string().datetime(), end: z.string().datetime()},
-    async ({summary, start, end}) => {
-      const event = await client.createEvent(calendar.url, {
+    {summary: z.string(), start: z.string().datetime(), end: z.string().datetime(), calendarUrl: z.string()},
+    async ({calendarUrl, summary, start, end}) => {
+      const event = await client.createEvent(calendarUrl, {
         summary: summary,
         start: new Date(start),
         end: new Date(end),
@@ -41,9 +40,9 @@ async function main() {
 
   server.tool(
     "list-events",
-    {start: z.string().datetime(), end: z.string().datetime()},
-    async ({start, end}) => {
-      const allEvents = await client.getEvents(calendar.url);
+    {start: z.string().datetime(), end: z.string().datetime(), calendarUrl: z.string()},
+    async ({calendarUrl, start, end}) => {
+      const allEvents = await client.getEvents(calendarUrl);
 
       // Filter events that fall within the specified time range
       const startDate = new Date(start);
@@ -65,9 +64,9 @@ async function main() {
 
   server.tool(
     "delete-event",
-    {uid: z.string()},
-    async ({uid}) => {
-      await client.deleteEvent(calendar.url, uid);
+    {uid: z.string(), calendarUrl: z.string()},
+    async ({uid, calendarUrl}) => {
+      await client.deleteEvent(calendarUrl, uid);
       return {
         content: [{type: "text", text: "Event deleted"}]
       };
@@ -79,7 +78,7 @@ async function main() {
     async () => {
       const calendars = await client.getCalendars();
       return {
-        content: [{type: "text", text: calendars.map(c => c.displayName).join("\n")}]
+        content: [{type: "text", text: calendars.map(c => {name: c.displayName, url: c.url}).join("\n")}]
       };
     }
   )
