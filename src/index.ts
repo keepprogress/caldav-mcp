@@ -40,6 +40,7 @@ async function main() {
     }
   );
 
+
   server.tool(
     "list-events",
     "List all events between start and end date in the calendar specified by its URL",
@@ -59,8 +60,9 @@ async function main() {
         return eventStart <= endDate && eventEnd >= startDate;
       });
 
+      const data = filteredEvents.map(e => ({summary: e.summary, start: e.start, end: e.end}));
       return {
-        content: [{type: "text", text: filteredEvents.map(e => `${e.summary}\nStart: ${e.start}\nEnd: ${e.end}`).join("\n")}]
+        content: [{type: "text", text: JSON.stringify(data)}]
       };
     }
   );
