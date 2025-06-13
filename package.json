@@ -20,12 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/killermouse0/caldav-mcp.git"
+    "url": "https://github.com/dominik1001/caldav-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/killermouse0/caldav-mcp/issues"
+    "url": "https://github.com/dominik1001/caldav-mcp/issues"
   },
-  "homepage": "https://github.com/killermouse0/caldav-mcp#readme",
+  "homepage": "https://github.com/dominik1001/caldav-mcp#readme",
   "author": "Dominik Grusemann",
   "license": "MIT",
   "dependencies": {
