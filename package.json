@@ -17,8 +17,8 @@
     "lint": "eslint src/",
     "watch": "tsc --watch",
     "semantic-release": "semantic-release",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --write src/.",
+    "format:check": "prettier --check src/."
   },
   "repository": {
     "type": "git",
