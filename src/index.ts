@@ -1,24 +1,15 @@
 #!/usr/bin/env node
 
 import "dotenv/config"
-import { CalDAVClient, RecurrenceRule } from "ts-caldav"
+import { CalDAVClient } from "ts-caldav"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod"
+import { registerCreateEvent } from "./tools/create-event.js"
 
 const server = new McpServer({
   name: "caldav-mcp",
   version: "0.1.0",
-})
-
-const recurrenceRuleSchema = z.object({
-  freq: z.enum(["DAILY", "WEEKLY", "MONTHLY", "YEARLY"]).optional(),
-  interval: z.number().optional(),
-  count: z.number().optional(),
-  until: z.string().datetime().optional(), // ISO 8601 string
-  byday: z.array(z.string()).optional(), // e.g. ["MO", "TU"]
-  bymonthday: z.array(z.number()).optional(),
-  bymonth: z.array(z.number()).optional(),
 })
 
 const dateString = z.string().refine((val) => !isNaN(Date.parse(val)), {
@@ -35,30 +26,9 @@ async function main() {
     },
   })
 
-  const calendars = await client.getCalendars()
+  registerCreateEvent(client, server)
 
-  server.tool(
-    "create-event",
-    "Creates an event in the calendar specified by its URL",
-    {
-      summary: z.string(),
-      start: z.string().datetime(),
-      end: z.string().datetime(),
-      calendarUrl: z.string(),
-      recurrenceRule: recurrenceRuleSchema.optional(),
-    },
-    async ({ calendarUrl, summary, start, end, recurrenceRule }) => {
-      const event = await client.createEvent(calendarUrl, {
-        summary: summary,
-        start: new Date(start),
-        end: new Date(end),
-        recurrenceRule: recurrenceRule as RecurrenceRule,
-      })
-      return {
-        content: [{ type: "text", text: event.uid }],
-      }
-    },
-  )
+  const calendars = await client.getCalendars()
 
   server.tool(
     "list-events",
