@@ -8,6 +8,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { registerCreateEvent } from "./tools/create-event.js"
 import { registerListEvents } from "./tools/list-events.js"
 import { registerDeleteEvent } from "./tools/delete-event.js"
+import { registerListCalendars } from "./tools/list-calendars.js"
 
 const server = new McpServer({
   name: "caldav-mcp",
@@ -27,18 +28,7 @@ async function main() {
   registerCreateEvent(client, server)
   registerListEvents(client, server)
   registerDeleteEvent(client, server)
-
-  const calendars = await client.getCalendars()
-
-  server.tool(
-    "list-calendars",
-    "List all calendars returning both name and URL",
-    {},
-    async () => {
-      const data = calendars.map((c) => ({ name: c.displayName, url: c.url }))
-      return { content: [{ type: "text", text: JSON.stringify(data) }] }
-    },
-  )
+  await registerListCalendars(client, server)
 
   // Start receiving messages on stdin and sending messages on stdout
   const transport = new StdioServerTransport()
