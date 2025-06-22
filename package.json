@@ -13,7 +13,8 @@
   "scripts": {
     "build": "tsc && shx chmod +x dist/*.js",
     "prepare": "npm run build && husky",
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "watch": "tsc --watch",
@@ -50,7 +51,8 @@
     "semantic-release": "^24.2.5",
     "shx": "^0.4.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.1"
+    "typescript-eslint": "^8.34.1",
+    "vitest": "^3.0.0"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
