@@ -4,9 +4,10 @@ import "dotenv/config"
 import { CalDAVClient } from "ts-caldav"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
-import { z } from "zod"
+
 import { registerCreateEvent } from "./tools/create-event.js"
 import { registerListEvents } from "./tools/list-events.js"
+import { registerDeleteEvent } from "./tools/delete-event.js"
 
 const server = new McpServer({
   name: "caldav-mcp",
@@ -25,20 +26,9 @@ async function main() {
 
   registerCreateEvent(client, server)
   registerListEvents(client, server)
+  registerDeleteEvent(client, server)
 
   const calendars = await client.getCalendars()
-
-  server.tool(
-    "delete-event",
-    "Deletes an event in the calendar specified by its URL",
-    { uid: z.string(), calendarUrl: z.string() },
-    async ({ uid, calendarUrl }) => {
-      await client.deleteEvent(calendarUrl, uid)
-      return {
-        content: [{ type: "text", text: "Event deleted" }],
-      }
-    },
-  )
 
   server.tool(
     "list-calendars",
