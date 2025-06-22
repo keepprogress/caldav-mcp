@@ -12,9 +12,10 @@
   ],
   "scripts": {
     "build": "tsc && shx chmod +x dist/*.js",
-    "prepare": "npm run build",
+    "prepare": "npm run build && husky",
     "test": "echo \"Error: no test specified\" && exit 0",
     "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
     "watch": "tsc --watch",
     "semantic-release": "semantic-release",
     "format": "prettier --write src/.",
@@ -42,10 +43,19 @@
     "@semantic-release/github": "^11.0.3",
     "@types/node": "^24.0.1",
     "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "prettier": "3.5.3",
     "semantic-release": "^24.2.5",
     "shx": "^0.4.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
