@@ -5,10 +5,12 @@ import { CalDAVClient } from "ts-caldav"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 
-import { registerCreateEvent } from "./tools/create-event.js"
-import { registerListEvents } from "./tools/list-events.js"
-import { registerDeleteEvent } from "./tools/delete-event.js"
-import { registerListCalendars } from "./tools/list-calendars.js"
+import {
+  registerCreateEvent,
+  registerListEvents,
+  registerDeleteEvent,
+  registerListCalendars,
+} from "./tools"
 
 const server = new McpServer({
   name: "caldav-mcp",
