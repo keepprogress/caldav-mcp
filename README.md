@@ -1,6 +1,6 @@
 # caldav-mcp
 
-<div align="center">
+<div style="text-align: center;">
 
 🗓️ A CalDAV & Apple Reminders Model Context Protocol (MCP) server to expose calendar and reminder operations as tools for AI assistants.
 
